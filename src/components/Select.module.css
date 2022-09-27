@@ -1,0 +1,125 @@
+
+:root {
+    --bd: #777;
+    --bd-rad: 0.25rem;
+    --bd-focus: rgb(10, 129, 10);
+    --bg: rgb(250, 251, 251);
+    --bg-opt-even: rgb(243, 243, 243);
+    --bg-opt-hover: rgb(26, 26, 86, 0.5);
+    --bg-opt-selected: yellowgreen;
+    --fg: #333;
+    --fg-hover: #777;
+    --fg-value: rgb(13, 13, 129);
+    --fg-danger: firebrick;
+}
+
+ul {
+    list-style: none;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    border: 1px solid var(--bd);
+    border-radius: var(--bd-rad);
+    background-color: var(--bg);
+    width: 15rem;
+    min-height: 1.5rem;
+    margin: 0 auto;
+    padding: 1px 0.25rem;
+    text-align: start;
+    display: grid;
+    grid-template-columns: 1fr repeat(3, auto);
+}
+
+.values {
+    display: flex;
+}
+
+.container:focus {
+    border: 1px solid var(--bd-focus)
+}
+
+.value {
+    color: var(--fg-value);
+    /* padding: 0 0.5rem; */
+}
+
+.controls {
+    display: grid;
+    grid-auto-flow: column;
+    place-content: center;
+}
+
+.btn-clear {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    /* font-weight: bold; */
+}
+
+.btn-clear:hover {
+    color: var(--fg-danger);
+    font-weight: bolder;
+}
+
+.divider {
+    border-left: 1px solid;
+    margin-right: 0.25rem;
+}
+
+.caret {
+    color: var(--fg);
+}
+
+.caret:hover {
+    color: var(--fg-hover);
+}
+
+.options {
+    position: absolute;
+    display: none;
+    width: 100%;
+    left: 0;
+    top: 100%;
+    border: 1px solid var(--bd);
+    border-radius: var(--bd-rad);
+    margin: 0.5rem 0;
+}
+
+.options.show {
+    display: block;
+}
+
+.option {
+    margin: 0.1rem 0.15rem;
+    padding: 0 0.1rem;
+}
+
+/* Add top margin to .option preceeded by .option */
+.option + .option {
+    margin-top: 0.2rem;
+}
+
+.option:nth-child(2n) {
+    background-color: var(--bg-opt-even);
+}
+
+.option:hover {
+    background-color: var(--bg-opt-hover);
+    cursor: pointer;
+}
+
+.option.selected {
+    border: 1px solid var(--bg-opt-selected);
+    border-radius: var(--bd-rad);
+}
+
+.option.selected::before {
+    content: "✅";
+    padding-right: 0.25rem;
+}
