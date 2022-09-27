@@ -6,9 +6,6 @@
 
 body {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-#root {
   background-color: beige;
   max-width: 1280px;
   min-height: 100vh;
