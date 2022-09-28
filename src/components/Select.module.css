@@ -83,6 +83,7 @@ ul, li {
 .options {
     position: absolute;
     display: none;
+    background-color: var(--bg);
     width: 100%;
     left: 0;
     top: 100%;

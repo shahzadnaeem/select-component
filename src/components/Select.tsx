@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Select.module.css";
 
 export type SelectOption = {
@@ -16,6 +16,14 @@ export type SelectProps = {
 
 export function Select({ options, currValue, onChange }: SelectProps) {
   const [show, setShow] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(0);
+
+  useEffect(() => {
+    if (show) {
+      setSelectedIdx(0);
+      console.log(`setSelectedIdx(0)`);
+    }
+  }, [show]);
 
   function toggleShow() {
     setShow((s) => !s);
@@ -32,12 +40,28 @@ export function Select({ options, currValue, onChange }: SelectProps) {
 
   function setValue(value: SelectOption) {
     if (value !== currValue) {
+      const idx = options.findIndex((opt) => opt === value);
+
+      console.log(`setValue: ${JSON.stringify(value)}, idx=${idx}`);
+
       onChange(value);
     }
   }
 
   function isOptionSelected(option: SelectOption) {
-    return currValue && currValue.value === option.value && currValue.name === option.name;
+    const isSame = currValue === option;
+    const isSameValue = currValue && (currValue.value === option.value &&
+      currValue.name === option.name);
+
+    if (isSame !== isSameValue) {
+      console.log(
+        `WHY?: isOptionSelected: isSame=${isSame}, isSameValue=${isSameValue}: ${
+          JSON.stringify(option)
+        } !== ${JSON.stringify(currValue)}`,
+      );
+    }
+
+    return isSameValue;
   }
 
   const valueToShow = currValue
@@ -69,23 +93,21 @@ export function Select({ options, currValue, onChange }: SelectProps) {
         </nav>
 
         <ul className={`${styles.options} ${show ? styles.show : ""}`}>
-          {options.map((o, i) => {
-            return (
-              <li
-                key={o.value}
-                className={`${styles.option} ${
-                  isOptionSelected(o) ? styles.selected : ""
-                }`}
-                onClick={(ev) => {
-                  ev.stopPropagation();
-                  setValue(o);
-                  clearShow();
-                }}
-              >
-                {o.name} ({o.value})
-              </li>
-            );
-          })}
+          {options.map((opt, i) => (
+            <li
+              onClick={(ev) => {
+                ev.stopPropagation();
+                setValue(opt);
+                clearShow();
+              }}
+              key={opt.value}
+              className={`${styles.option} ${
+                isOptionSelected(opt) ? styles.selected : ""
+              }`}
+            >
+              {opt.name} ({opt.value})
+            </li>
+          ))}
         </ul>
       </div>
     </>
