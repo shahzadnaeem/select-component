@@ -49,19 +49,7 @@ export function Select({ options, currValue, onChange }: SelectProps) {
   }
 
   function isOptionSelected(option: SelectOption) {
-    const isSame = currValue === option;
-    const isSameValue = currValue && (currValue.value === option.value &&
-      currValue.name === option.name);
-
-    if (isSame !== isSameValue) {
-      console.log(
-        `WHY?: isOptionSelected: isSame=${isSame}, isSameValue=${isSameValue}: ${
-          JSON.stringify(option)
-        } !== ${JSON.stringify(currValue)}`,
-      );
-    }
-
-    return isSameValue;
+    return currValue === option;
   }
 
   const valueToShow = currValue

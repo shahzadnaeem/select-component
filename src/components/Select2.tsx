@@ -47,24 +47,13 @@ export function Select2({ multiple, value, onChange, options }: Select2Props) {
     if (multiple) {
       return value.includes(option);
     } else {
-      const isSame = option === value;
-      const isSameValue = value && (value.value === option.value &&
-        value.label === option.label);
-
-      if (isSame !== isSameValue) {
-        console.log(
-          `WHY2?: isOptionSelected: isSame=${isSame}, isSameValue=${isSameValue}: ${
-            JSON.stringify(option)
-          } !== ${JSON.stringify(value)}`,
-        );
-      }
-
-      return isSameValue;
+      return option === value;
     }
   }
 
   useEffect(() => {
-    if (isOpen) setHighlightedIndex(0);
+    // Looks odd, but setting this on close prevents flicker on opening if it was elsewhere
+    if (!isOpen) setHighlightedIndex(0);
   }, [isOpen]);
 
   useEffect(() => {
