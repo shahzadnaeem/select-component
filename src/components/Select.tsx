@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import styles from "./Select.module.css";
 
 export type SelectOption = {
@@ -127,8 +128,8 @@ export function Select({ options, currValue, onChange }: SelectProps) {
           >
             &times;
           </button>
-          <nav className={styles.divider}></nav>
-          <nav className={styles.caret}>▿</nav>
+          <span className={styles.divider}></span>
+          <span className={styles.caret}>▿</span>
         </nav>
 
         <ul className={`${styles.options} ${show ? styles.show : ""}`}>

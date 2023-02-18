@@ -7,7 +7,7 @@
     --bg-opt-selected: yellowgreen;
     --bg-opt-highlighted: rgb(205, 204, 182);
     --fg: #333;
-    --fg-hover: #777;
+    --fg-hover: rgb(14, 73, 14);
     --fg-value: rgb(14, 73, 14);
     --fg-novalue: #777;
     --fg-danger: firebrick;
@@ -64,12 +64,11 @@ ul, li {
     outline: none;
     border: none;
     background-color: transparent;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
 }
 
 .btn-clear:hover, .btn-clear:focus {
     color: var(--fg-danger);
-    font-weight: bolder;
 }
 
 .divider {
@@ -78,6 +77,7 @@ ul, li {
 }
 
 .caret {
+    translate: 0 -2px;
     color: var(--fg);
     cursor: default;
 }
