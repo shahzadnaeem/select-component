@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Select.module.css";
 
 export type SelectOption = {
@@ -17,13 +17,62 @@ export type SelectProps = {
 export function Select({ options, currValue, onChange }: SelectProps) {
   const [show, setShow] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (show) {
-      setSelectedIdx(0);
-      console.log(`setSelectedIdx(0)`);
+    if (!show) {
+      setSelectedIdx(options.findIndex((opt) => opt === currValue) || 0);
     }
   }, [show]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.code === "Tab") && !show) return;
+
+      e.preventDefault();
+
+      if (e.target != containerRef.current) return;
+      switch (e.code) {
+        case "Enter":
+        case "Space":
+          if (show) {
+            setValue(options[selectedIdx]);
+          }
+          toggleShow();
+          break;
+
+        case "Tab":
+        case "ArrowUp":
+        case "ArrowDown": {
+          if (!show) {
+            setShow(true);
+            break;
+          }
+
+          let newValue = selectedIdx +
+            (((e.code === "ArrowDown") || e.code == "Tab") ? 1 : -1);
+          if (newValue < 0) newValue = options.length - 1;
+          else if (newValue >= options.length) newValue = 0;
+
+          setSelectedIdx(newValue);
+          break;
+        }
+
+        case "KeyX":
+          clearValue();
+          break;
+
+        case "Escape":
+          clearShow();
+          break;
+      }
+    };
+    containerRef.current?.addEventListener("keydown", handler);
+
+    return () => {
+      containerRef.current?.removeEventListener("keydown", handler);
+    };
+  }, [show, selectedIdx, options]);
 
   function toggleShow() {
     setShow((s) => !s);
@@ -42,8 +91,6 @@ export function Select({ options, currValue, onChange }: SelectProps) {
     if (value !== currValue) {
       const idx = options.findIndex((opt) => opt === value);
 
-      console.log(`setValue: ${JSON.stringify(value)}, idx=${idx}`);
-
       onChange(value);
     }
   }
@@ -54,30 +101,34 @@ export function Select({ options, currValue, onChange }: SelectProps) {
 
   const valueToShow = currValue
     ? `${currValue.name} (${currValue.value})`
-    : "Nothing!";
+    : "Please choose...";
+
+  const valueStyle = currValue ? styles.value : styles.novalue;
 
   return (
     <>
       <div
+        ref={containerRef}
         tabIndex={0}
         className={styles.container}
         onClick={() => toggleShow()}
         onBlur={() => clearShow()}
       >
-        <span className={styles.value}>{valueToShow}</span>
+        <span className={valueStyle}>{valueToShow}</span>
 
         <nav className={styles.controls}>
           <button
             className={styles["btn-clear"]}
             onClick={(ev) => {
               ev.stopPropagation();
+              containerRef.current?.focus();
               clearValue();
             }}
           >
             &times;
           </button>
           <nav className={styles.divider}></nav>
-          <nav className={styles.caret}>⏷</nav>
+          <nav className={styles.caret}>▿</nav>
         </nav>
 
         <ul className={`${styles.options} ${show ? styles.show : ""}`}>
@@ -88,10 +139,12 @@ export function Select({ options, currValue, onChange }: SelectProps) {
                 setValue(opt);
                 clearShow();
               }}
+              onMouseEnter={() => setSelectedIdx(i)}
+              onMouseMove={() => setSelectedIdx(i)}
               key={opt.value}
               className={`${styles.option} ${
                 isOptionSelected(opt) ? styles.selected : ""
-              }`}
+              } ${i == selectedIdx ? styles.highlighted : ""}`}
             >
               {opt.name} ({opt.value})
             </li>
