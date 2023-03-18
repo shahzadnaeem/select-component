@@ -1,7 +1,9 @@
 import { useState } from "react";
-import "./App.css";
 import { Select, SelectOption, SelectOptions } from "./components/Select";
 import { Select2, Select2Option } from "./components/Select2";
+
+import "./css/reset.css";
+import "./css/base.css";
 
 const options: SelectOptions = [
   { name: "First", value: 1 },

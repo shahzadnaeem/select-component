@@ -1,0 +1,13 @@
+:root {
+    --bg: beige;
+    --fg: darkblue;
+}
+
+body {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+}

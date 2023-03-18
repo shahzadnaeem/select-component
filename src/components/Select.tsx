@@ -117,20 +117,19 @@ export function Select({ options, currValue, onChange }: SelectProps) {
       >
         <span className={valueStyle}>{valueToShow}</span>
 
-        <nav className={styles.controls}>
-          <button
-            className={styles["btn-clear"]}
-            onClick={(ev) => {
-              ev.stopPropagation();
-              containerRef.current?.focus();
-              clearValue();
-            }}
-          >
-            &times;
-          </button>
-          <span className={styles.divider}></span>
-          <span className={styles.caret}>▿</span>
-        </nav>
+        <button
+          className={styles["btn-clear"]}
+          onClick={(ev) => {
+            ev.stopPropagation();
+            containerRef.current?.focus();
+            clearValue();
+          }}
+        >
+          &times;
+        </button>
+        <span className={styles.divider}></span>
+        <span className={styles.caret}>▽</span>
+        {/* </div> */}
 
         <ul className={`${styles.options} ${show ? styles.show : ""}`}>
           {options.map((opt, i) => (
